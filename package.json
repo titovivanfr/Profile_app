@@ -19,6 +19,8 @@
         "vue-loader": "^17.0.1"
     },
     "dependencies": {
-        "vue": "^3.2.36"
+        "formdata-polyfill": "^4.0.10",
+        "vue": "^3.2.36",
+        "vue-router": "^4.1.6"
     }
 }

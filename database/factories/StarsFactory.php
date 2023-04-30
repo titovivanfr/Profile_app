@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Profile>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Stars>
  */
-class ProfileFactory extends Factory
+class StarsFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,8 @@ class ProfileFactory extends Factory
     {
         $randomNumber = rand(0,9);
         return [
-            'name' => $this->faker->name(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
             'bio' => $this->faker->text(100),
             'avatar'=> "https://randomuser.me/api/portraits/lego/$randomNumber.jpg"
         ];
