@@ -69,7 +69,8 @@ export default {
         formSubmit() {
             const config = {
                 headers:{
-                    'Content-Type': `multipart/form-data;`
+                    'Content-Type': `multipart/form-data;`,
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
             }
             let form = new FormData

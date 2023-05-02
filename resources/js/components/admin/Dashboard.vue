@@ -53,9 +53,6 @@ export default {
             users: []
         }
     },
-    mounted() {
-        console.log(this.testFilter)
-    },
     created() {
         axios.get('/api/stars/')
             .then(response => {

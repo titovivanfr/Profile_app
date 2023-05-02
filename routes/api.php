@@ -22,7 +22,6 @@ Route::middleware('api')->group(function () {
         Route::post('edit/{id}', [StarController::class, "update"]);
         Route::delete('{id}', [StarController::class, "destroy"]);
         Route::get('/{id}', [StarController::class, "getStar"]);
-
     });
 
 });
