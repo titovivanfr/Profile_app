@@ -20,6 +20,9 @@
                 <div class="relative">
                     <a class="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500
                   rounded-lg transition duration-200 hover:bg-indigo-600 ease">Submit</a>
+                    <router-link :to="{name: 'Home'}" type="submit" class="mt-3 w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-gray-500
+              rounded-lg transition duration-200 hover:bg-indigo-600 ease">Back
+                    </router-link>
                 </div>
             </div>
         </div>

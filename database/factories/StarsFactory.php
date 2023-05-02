@@ -20,7 +20,7 @@ class StarsFactory extends Factory
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'bio' => $this->faker->text(100),
+            'bio' => $this->faker->text(1000),
             'avatar'=> "https://randomuser.me/api/portraits/lego/$randomNumber.jpg"
         ];
     }

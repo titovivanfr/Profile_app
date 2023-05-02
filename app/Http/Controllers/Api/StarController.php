@@ -4,31 +4,30 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Stars;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class StarController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display all stars.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index() : JsonResponse
     {
-        return Stars::all();
-
+       return response()->json(Stars::all());
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new created Star.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request) : JsonResponse
     {
-
-        dd($request->input('firstName'), $request->all(), $request->file("image"), $_FILES);
         $request->validate([
             'firstName' => 'required',
             'lastName' => 'required',
@@ -37,75 +36,77 @@ class StarController extends Controller
         ]);
 
         $stars = new Stars([
-        'firstName' => $request->input('firstName'),
-        'lastName' => $request->input('lastName'),
+        'first_name' => $request->input('firstName'),
+        'last_name' => $request->input('lastName'),
         'bio' => $request->input('bio'),
-        'avatar' => $request->input('image')
         ]);
-
+        $this->uploadImage($stars, $request);
         $stars->save();
-        return response()->json('Stars created!');
+        return response()->json('Stars is created!');
     }
 
-    public function  edit($id) {
-        // get star form id
-        // return the star
+    /**
+     * Get only one star
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getStar(int $id): JsonResponse
+    {
+        $star = Stars::find($id);
+        return response()->json($star);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Stars $stars
+     * @param Request $request
+     * @return Response
      */
-    public function update($id, Request $request)
+    private function uploadImage(Stars $stars, Request $request): void
     {
-        dd($request->input('firstName'), $request->all(), $request->file("image"), $_FILES);
-
-        $stars = Stars::find($id);
-
-        $request->validate([
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'bio' => 'required',
-            'image' => 'required|mimes:jpeg,png,jpg,gif',
-        ]);
-
-        if (!$stars) {
-            return response()->json(['error' => 'Data not found'], 404);
-        }
-
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $imageName);
 
-            $stars->avatar = $image;
-            return response()->json(['success' => true, 'message' => 'Image uploaded successfully']);
+            $stars->avatar = 'images/'. $imageName;
+            $stars->save();
         }
+    }
+    /**
+     * Update the star.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     */
+    public function update(int $id, Request $request): JsonResponse
+    {
+        $request->validate([
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'bio' => 'required',
+            'image' => 'mimes:jpeg,png,jpg,gif',
+        ]);
 
-        $stars->firstName = $request->input('firstName');
-        $stars->lastName = $request->input('lastName');
-        $stars->bio = $request->input('bio');
-        $stars->save();
+        $star = Stars::find($id);
+        $star->first_name = $request->input('firstName');
+        $star->last_name = $request->input('lastName');
+        $star->bio = $request->input('bio');
+        $this->uploadImage($star, $request);
+        $star->save();
 
-        return response()->json('Data updated successfully');
+        return response()->json('Stars is updated !');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Remove the specified star.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
      */
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
         Stars::find($id)->delete();
         return response()->json("Stars was deleted!");

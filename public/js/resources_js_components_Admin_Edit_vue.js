@@ -16,18 +16,20 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         bio: '',
-        image: ''
+        image: '',
+        success: null
       }
     };
   },
   methods: {
-    handleFileUpload: function handleFileUpload(event) {
+    handleFileUpload: function handleFileUpload() {
       this.form.image = this.$refs.image.files[0];
     },
     formSubmit: function formSubmit() {
+      var _this = this;
       var config = {
         headers: {
           'Content-Type': "multipart/form-data;"
@@ -35,14 +37,23 @@ __webpack_require__.r(__webpack_exports__);
       };
       var form = new FormData();
       form.append('image', this.form.image);
-      form.append('firstName', this.form.firstName);
-      form.append('lastName', this.form.lastName);
+      form.append('firstName', this.form.first_name);
+      form.append('lastName', this.form.last_name);
       form.append('bio', this.form.bio);
-      console.log(form, this.form);
-      axios.patch("/api/profile/".concat(this.$route.params.id), form, config).then(function () {})["catch"](function (err) {
-        console.log("Error");
+      axios.post("/api/stars/edit/".concat(this.$route.params.id), form, config).then(function (response) {
+        _this.form.success = response.data;
+      })["catch"](function (err) {
+        console.log("Error", err);
       });
     }
+  },
+  created: function created() {
+    var _this2 = this;
+    axios.get("/api/stars/".concat(this.$route.params.id)).then(function (response) {
+      _this2.form = response.data;
+    })["catch"](function (err) {
+      console.log("Error", err);
+    });
   }
 });
 
@@ -68,7 +79,7 @@ var _hoisted_2 = {
 };
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "w-full text-4xl font-medium text-center leading-snug font-serif"
-}, "Update profile", -1 /* HOISTED */);
+}, "Update star", -1 /* HOISTED */);
 var _hoisted_4 = {
   "class": "w-full text-4xl font-medium text-center leading-snug font-serif"
 };
@@ -96,14 +107,19 @@ var _hoisted_11 = {
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute"
 }, "Avatar", -1 /* HOISTED */);
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_13 = {
   "class": "relative"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+};
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "submit",
   "class": "w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease"
-}, "Submit ")], -1 /* HOISTED */);
-
+}, "Submit ", -1 /* HOISTED */);
+var _hoisted_15 = {
+  key: 0,
+  "class": "mx-auto mt-3 text-red-500 font-bold"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_4, "id : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$route.params.id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[4] || (_cache[4] = function () {
       return $options.formSubmit && $options.formSubmit.apply($options, arguments);
@@ -112,19 +128,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.form.firstName = $event;
+      return $data.form.first_name = $event;
     }),
     placeholder: "some name",
     type: "text",
     "class": "border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.firstName]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.first_name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.form.lastName = $event;
+      return $data.form.last_name = $event;
     }),
     placeholder: "some name",
     type: "text",
     "class": "border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.lastName]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.last_name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.form.bio = $event;
     }),
@@ -141,7 +157,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Avatar",
     accept: "image/*",
     "class": "border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
-  }, null, 544 /* HYDRATE_EVENTS, NEED_PATCH */)]), _hoisted_13], 32 /* HYDRATE_EVENTS */)])]);
+  }, null, 544 /* HYDRATE_EVENTS, NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: {
+      name: 'Dashboard'
+    },
+    type: "submit",
+    "class": "mt-3 w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-gray-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Back ")];
+    }),
+    _: 1 /* STABLE */
+  })])], 32 /* HYDRATE_EVENTS */), $data.form.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.success), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
 }
 
 /***/ }),
