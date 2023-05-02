@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AppController;
+use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\StarController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('api')->group(function () {
+    Route::post('login', [AdminAuthController::class, 'login']);
+    Route::post('logout', [AdminAuthController::class, 'logout'])->middleware('auth:api');
+
+
     Route::prefix('stars')->group(function () {
         Route::get('/', [StarController::class, "index"]);
         Route::post('create', [StarController::class, "store"]);
@@ -23,7 +27,6 @@ Route::middleware('api')->group(function () {
         Route::delete('{id}', [StarController::class, "destroy"]);
         Route::get('/{id}', [StarController::class, "getStar"]);
     });
-
 });
 
 // allowed to everyone
