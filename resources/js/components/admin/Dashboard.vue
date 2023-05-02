@@ -29,7 +29,7 @@
                         <h2 class="text-sm font-medium text-gray-800 dark:text-white">{{ user.first_name }} {{ user.last_name }}</h2>
                     </div>
                 </td>
-                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ user.bio }}</td>
+                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap max-w-xs overflow-hidden">{{ user.bio }}</td>
                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                     <div class="flex items-center gap-x-6">
                         <router-link :to="{name: 'Edit', params: { id: user.id}}" class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">

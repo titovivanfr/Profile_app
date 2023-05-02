@@ -17,9 +17,6 @@ __webpack_require__.r(__webpack_exports__);
       users: []
     };
   },
-  mounted: function mounted() {
-    console.log(this.testFilter);
-  },
   created: function created() {
     var _this = this;
     axios.get('/api/stars/').then(function (response) {
@@ -95,7 +92,7 @@ var _hoisted_9 = {
   "class": "text-sm font-medium text-gray-800 dark:text-white"
 };
 var _hoisted_10 = {
-  "class": "px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+  "class": "px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap max-w-xs overflow-hidden"
 };
 var _hoisted_11 = {
   "class": "px-4 py-4 text-sm whitespace-nowrap"
